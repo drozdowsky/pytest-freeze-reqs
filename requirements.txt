@@ -1,0 +1,3 @@
+# development requirements
+pytest<6
+requirements-parser<=0.2

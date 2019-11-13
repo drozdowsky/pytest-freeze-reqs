@@ -1,0 +1,11 @@
+dist/*
+pytest_freeze_reqs.egg-info/*
+.coverage
+.tox/
+*.pyc
+htmlcov/
+docs/_build/
+.idea/
+.eggs/
+.pytest_cache/
+build/
