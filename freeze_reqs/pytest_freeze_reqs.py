@@ -50,7 +50,6 @@ def pytest_collect_file(parent, path):
 class RequirementFile(pytest.File):
     def collect(self):
         import requirements
-
         with open(str(self.fspath), "r") as fd:
             for req in requirements.parse(fd):
                 yield RequirementItem(req.name, self, req)

@@ -10,7 +10,7 @@ Django>=1.0  # not ok
 requests  # not ok
 requests>1.0,<2.3  # ok
 -e git://github.com/org/pkg.git#egg=pkg  # not ok
--e git://github.com/org/pkg.git@{revision}#egg=elasticutils  # ok
+-e git://github.com/org/pkg.git@{revision}#egg=pkg  # ok
 -e /local/file  # ok
 ```
 
@@ -25,9 +25,9 @@ ________________ requirement: requests is not frozen properly. ________________
 requirement freeze test failed
    improperly frozen requirement: 'requests': []
    try adding pkg==version, or git@revision
-______________ requirement: elasticutils is not frozen properly. ______________
+______________ requirement: pkg is not frozen properly. ______________
 requirement freeze test failed
-   improperly frozen requirement: 'elasticutils': '[no revision]'
+   improperly frozen requirement: 'pkg': '[no revision]'
    try adding pkg==version, or git@revision
 ```
 
