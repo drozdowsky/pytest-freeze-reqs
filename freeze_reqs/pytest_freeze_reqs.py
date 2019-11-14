@@ -50,27 +50,40 @@ def pytest_collect_file(parent, path):
 class RequirementFile(pytest.File):
     def collect(self):
         import requirements
+
         with open(str(self.fspath), "r") as fd:
             for req in requirements.parse(fd):
-                yield RequirementItem(req.name, self, req.specs)
+                yield RequirementItem(req.name, self, req)
 
 
 class RequirementItem(pytest.Item):
-    def __init__(self, name, parent, specs):
+    def __init__(self, name, parent, req):
         super(RequirementItem, self).__init__(name, parent)
         self.add_marker("freeze_reqs")
-        self.specs = specs
+        self.req = req
 
     def runtest(self):
-        if not self.specs:
-            raise RequirementNotFrozenException(self, self.name, self.specs)
+        # local files
+        if self.req.local_file:
+            return
 
-        for spec in self.specs:
+        # revision
+        if self.req.vcs:
+            if not self.req.revision:
+                raise RequirementNotFrozenException(self, self.name, "[no revision]")
+            else:
+                return
+
+        # pip packages
+        if not self.req.specs:
+            raise RequirementNotFrozenException(self, self.name, self.req.specs)
+
+        for spec in self.req.specs:
             operator, _ = spec
             if operator in ("<", "<=", "=="):
                 return
 
-        raise RequirementNotFrozenException(self, self.name, self.specs)
+        raise RequirementNotFrozenException(self, self.name, self.req.specs)
 
     def repr_failure(self, excinfo):
         """ called when self.runtest() raises an exception. """
@@ -80,7 +93,7 @@ class RequirementItem(pytest.Item):
                 [
                     "requirement freeze test failed",
                     "   improperly frozen requirement: {1!r}: {2!r}".format(*args),
-                    "   try e.g. {1}==1.0".format(*args),
+                    "   try adding pkg==version, or git@revision",
                 ]
             )
 

@@ -9,6 +9,9 @@ Django<2.2  # ok
 Django>=1.0  # not ok
 requests  # not ok
 requests>1.0,<2.3  # ok
+-e git://github.com/org/pkg.git#egg=pkg  # not ok
+-e git://github.com/org/pkg.git@{revision}#egg=elasticutils  # ok
+-e /local/file  # ok
 ```
 
 ## example error
@@ -16,13 +19,16 @@ requests>1.0,<2.3  # ok
 ================================== FAILURES ===================================
 _________________ requirement: Django is not frozen properly. _________________
 requirement freeze test failed
-   improperly frozen requirement: 'Django': [('>=', '1.0')]
-   try e.g. Django==1.0
+   improperly frozen requirement: 'Django': [('>', '1.0')]
+   try adding pkg==version, or git@revision
 ________________ requirement: requests is not frozen properly. ________________
 requirement freeze test failed
    improperly frozen requirement: 'requests': []
-   try e.g. requests==1.0
-========================= 2 failed, 8 passed in 0.35s =========================
+   try adding pkg==version, or git@revision
+______________ requirement: elasticutils is not frozen properly. ______________
+requirement freeze test failed
+   improperly frozen requirement: 'elasticutils': '[no revision]'
+   try adding pkg==version, or git@revision
 ```
 
 ## usage
