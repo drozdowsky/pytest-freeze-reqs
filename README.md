@@ -25,7 +25,7 @@ ________________ requirement: requests is not frozen properly. ________________
 requirement freeze test failed
    improperly frozen requirement: 'requests': []
    try adding pkg==version, or git@revision
-______________ requirement: pkg is not frozen properly. ______________
+________________ requirement: pkg is not frozen properly. _____________________
 requirement freeze test failed
    improperly frozen requirement: 'pkg': '[no revision]'
    try adding pkg==version, or git@revision
