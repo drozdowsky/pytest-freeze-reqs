@@ -6,7 +6,7 @@ README = open(os.path.join(here, "README.md")).read()
 
 setup(
     name="pytest-freeze-reqs",
-    version="0.1.8",
+    version="0.2.0",
     packages=["freeze_reqs"],
     description="Check if requirement files are frozen",
     long_description=README,
@@ -15,7 +15,10 @@ setup(
     author_email="hdrozdow+github@pm.me",
     url="https://github.com/drozdowsky/pytest-freeze-reqs/",
     license="MIT",
-    install_requires=["pytest", "requirements-parser"],
+    install_requires=["pytest>=5.4", "requirements-parser"],
     entry_points={"pytest11": ["freeze_reqs = freeze_reqs.pytest_freeze_reqs"]},
-    classifiers=["Framework :: Pytest"],
+    classifiers=[
+        "Programming Language :: Python :: 3 :: Only",
+        "Framework :: Pytest",
+    ],
 )
