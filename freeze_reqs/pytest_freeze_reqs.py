@@ -24,6 +24,10 @@ def pytest_addoption(parser):
     )
 
 
+def pytest_configure(config):
+    config.addinivalue_line("markers", "freeze_reqs: mark as freeze requirements test")
+
+
 def pytest_sessionstart(session):
     config = session.config
     if config.option.freeze_reqs:
@@ -40,11 +44,11 @@ def pytest_collect_file(parent, path):
         for ignore_path in config._freeze_reqs_ignore:
             if ignore_path in str(path):
                 return None
-        return RequirementFile(path, parent)
+        return RequirementFile.from_parent(parent, fspath=path)
     else:
         for include_path in config._freeze_reqs_include:
             if include_path in str(path):
-                return RequirementFile(path, parent)
+                return RequirementFile.from_parent(parent, fspath=path)
 
 
 class RequirementFile(pytest.File):
@@ -52,7 +56,7 @@ class RequirementFile(pytest.File):
         import requirements
         with open(str(self.fspath), "r") as fd:
             for req in requirements.parse(fd):
-                yield RequirementItem(req.name, self, req)
+                yield RequirementItem.from_parent(self, name=req.name, req=req)
 
 
 class RequirementItem(pytest.Item):
